@@ -20,5 +20,6 @@ func main() {
 	if err != nil {
 		fmt.Print("error")
 	}
-	fmt.Print(pixels)
+	brightness_array := utils.GetBrightnessArray(pixels)
+	fmt.Print(brightness_array)
 }

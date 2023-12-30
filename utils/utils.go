@@ -33,6 +33,26 @@ func GetPixelsArray(file io.Reader) ([][]Pixel, error) {
 	return pixels, nil
 }
 
+func getbrightness_Average(pixel Pixel) int {
+	return (pixel.B + pixel.G + pixel.R) / 3
+}
+
+func GetBrightnessArray(pixels [][]Pixel) [][]int {
+	height := len(pixels)
+	width := len(pixels[0])
+	var brightness_array [][]int
+	for i := 0; i < height; i++ {
+		var curr_row []int
+		for j := 0; j < width; j++ {
+			curr_row = append(curr_row, getbrightness_Average(pixels[i][j]))
+		}
+		brightness_array = append(brightness_array, curr_row)
+	}
+
+	return brightness_array
+
+}
+
 type Pixel struct {
 	R int
 	G int
