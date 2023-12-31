@@ -4,8 +4,17 @@ import (
 	"fmt"
 	"image"
 	"image/jpeg"
+	"image/png"
 	"io"
+
+	"github.com/nfnt/resize"
 )
+
+type Pixel struct {
+	R int
+	G int
+	B int
+}
 
 func getPixel(R uint32, G uint32, B uint32, a uint32) Pixel {
 	return Pixel{int(R / 257), int(G / 257), int(B / 257)}
@@ -13,16 +22,19 @@ func getPixel(R uint32, G uint32, B uint32, a uint32) Pixel {
 
 func GetPixelsArray(file io.Reader) ([][]Pixel, error) {
 	image.RegisterFormat("jpg", "jpg", jpeg.Decode, jpeg.DecodeConfig)
+	image.RegisterFormat("png", "png", png.Decode, png.DecodeConfig)
 	img, _, err := image.Decode(file)
 	if err != nil {
 		fmt.Print("error in decoding")
 		return nil, err
 	}
+	scaled_image := resize.Resize(200, 157, img, resize.Lanczos2)
 	var pixels [][]Pixel
 
 	// get the dimensions
-	bounds := img.Bounds()
+	bounds := scaled_image.Bounds()
 	width, height := bounds.Max.X, bounds.Max.Y
+	//fmt.Print(width, height)
 	for y := 0; y < height; y++ {
 		var curr_row []Pixel
 		for x := 0; x < width; x++ {
@@ -53,8 +65,22 @@ func GetBrightnessArray(pixels [][]Pixel) [][]int {
 
 }
 
-type Pixel struct {
-	R int
-	G int
-	B int
+func convert(value int) string {
+	str := "`^\",:;Il!i~+_-?][{1)(|\\/tfjrxnuvczXYUJCLQ0OZmwqpdbkhao*#MW&8%B@$}"
+	index := value / 4
+	return string(str[index])
+}
+
+func Brit_to_ascii(brightness_array [][]int) [][]string {
+	height := len(brightness_array)
+	width := len(brightness_array[0])
+	var ascii_array [][]string
+	for i := 0; i < height; i++ {
+		var curr_row []string
+		for j := 0; j < width; j++ {
+			curr_row = append(curr_row, convert(brightness_array[i][j]))
+		}
+		ascii_array = append(ascii_array, curr_row)
+	}
+	return ascii_array
 }
