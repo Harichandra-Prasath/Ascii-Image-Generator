@@ -62,14 +62,26 @@ func getbrightness_Lightness(pixel Pixel) int {
 	return (int(max) + int(min)) / 2
 }
 
-func GetBrightnessArray(pixels [][]Pixel) [][]int {
+type conversion func(Pixel) int
+
+func GetBrightnessArray(pixels [][]Pixel, method *string) [][]int {
 	height := len(pixels)
 	width := len(pixels[0])
+	var selected_method conversion
+	switch *method {
+	case "average":
+		selected_method = getbrightness_Average
+	case "lightness":
+		selected_method = getbrightness_Lightness
+	case "luminosity":
+		selected_method = getbrightness_luminosity
+	}
+
 	var brightness_array [][]int
 	for i := 0; i < height; i++ {
 		var curr_row []int
 		for j := 0; j < width; j++ {
-			curr_row = append(curr_row, getbrightness_Lightness(pixels[i][j]))
+			curr_row = append(curr_row, selected_method(pixels[i][j]))
 		}
 		brightness_array = append(brightness_array, curr_row)
 	}
