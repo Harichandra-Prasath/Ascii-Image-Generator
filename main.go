@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 
@@ -8,9 +9,14 @@ import (
 )
 
 func main() {
-	path := "test.jpeg"
+	path := flag.String("path", "test.jpeg", "Path of the image (Jpg,Jpeg,Png)")
+	flag.Parse()
 
-	file, err := os.Open(path)
+	if len(os.Args) < 2 {
+		fmt.Println("Usage: Ascii-generator -path path of the image")
+	}
+
+	file, err := os.Open(*path)
 	if err != nil {
 		fmt.Print(err)
 		os.Exit(1)
