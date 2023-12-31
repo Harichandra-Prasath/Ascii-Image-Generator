@@ -6,6 +6,7 @@ import (
 	"image/jpeg"
 	"image/png"
 	"io"
+	"math"
 
 	"github.com/nfnt/resize"
 )
@@ -49,6 +50,18 @@ func getbrightness_Average(pixel Pixel) int {
 	return (pixel.B + pixel.G + pixel.R) / 3
 }
 
+func getbrightness_luminosity(pixel Pixel) int {
+	return int(0.21*float64(pixel.R) + 0.72*float64(pixel.G) + 0.07*float64(pixel.B))
+}
+
+func getbrightness_Lightness(pixel Pixel) int {
+	max := math.Max(float64(pixel.B), float64(pixel.G))
+	max = math.Max(max, float64(pixel.R))
+	min := math.Min(float64(pixel.B), float64(pixel.G))
+	min = math.Min(min, float64(pixel.R))
+	return (int(max) + int(min)) / 2
+}
+
 func GetBrightnessArray(pixels [][]Pixel) [][]int {
 	height := len(pixels)
 	width := len(pixels[0])
@@ -56,7 +69,7 @@ func GetBrightnessArray(pixels [][]Pixel) [][]int {
 	for i := 0; i < height; i++ {
 		var curr_row []int
 		for j := 0; j < width; j++ {
-			curr_row = append(curr_row, getbrightness_Average(pixels[i][j]))
+			curr_row = append(curr_row, getbrightness_Lightness(pixels[i][j]))
 		}
 		brightness_array = append(brightness_array, curr_row)
 	}
