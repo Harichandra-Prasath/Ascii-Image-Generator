@@ -36,5 +36,6 @@ func display(array [][]string) {
 				k = k + 1
 			}
 		}
+		fmt.Println("")
 	}
 }

@@ -28,7 +28,7 @@ func GetPixelsArray(file io.Reader) ([][]Pixel, error) {
 		fmt.Print("error in decoding")
 		return nil, err
 	}
-	scaled_image := resize.Resize(200, 157, img, resize.Lanczos2)
+	scaled_image := resize.Resize(120, 120, img, resize.Lanczos2)
 	var pixels [][]Pixel
 
 	// get the dimensions
@@ -38,7 +38,7 @@ func GetPixelsArray(file io.Reader) ([][]Pixel, error) {
 	for y := 0; y < height; y++ {
 		var curr_row []Pixel
 		for x := 0; x < width; x++ {
-			curr_row = append(curr_row, getPixel(img.At(x, y).RGBA()))
+			curr_row = append(curr_row, getPixel(scaled_image.At(x, y).RGBA()))
 		}
 		pixels = append(pixels, curr_row)
 	}
