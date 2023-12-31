@@ -1,6 +1,15 @@
 ## CLI tool to generate ascii Image
 
-For now , you can point out your path in main.go and generate the art 
+Run 
+```bash
+ go build -o Ascii-generator 
+ ./Ascii-generator -path path_to_your_image
+```
+For help 
+Run 
+```bash
+./Ascii-generator -h
+```
 
 ### Future Scope
  
