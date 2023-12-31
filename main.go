@@ -8,8 +8,9 @@ import (
 )
 
 func main() {
+	path := "test.jpeg"
 
-	file, err := os.Open("test.jpeg")
+	file, err := os.Open(path)
 	if err != nil {
 		fmt.Print(err)
 		os.Exit(1)
