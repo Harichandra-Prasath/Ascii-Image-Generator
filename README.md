@@ -3,7 +3,7 @@
 Run 
 ```bash
  go build -o Ascii-generator 
- ./Ascii-generator -path path_to_your_image
+ ./Ascii-generator -path path_to_your_image -method method_for_brightness
 ```
 For help 
 Run 
