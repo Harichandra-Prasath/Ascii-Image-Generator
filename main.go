@@ -10,12 +10,12 @@ import (
 )
 
 func main() {
-	path := flag.String("path", "test.jpeg", "Path of the image (Jpg,Jpeg,Png)")
+	path := flag.String("path", "", "Path of the image (Jpg,Jpeg,Png)")
 	method := flag.String("method", "average", "Method for brightness conversion (Average,luminosity,lightness)")
-	//save := flag.Bool("save", false, "Option to save the ascii in a text file")
+	save := flag.Bool("save", false, "Option to save the ascii in a text file")
 	flag.Parse()
 
-	if len(os.Args) < 2 {
+	if len(os.Args) < 2 || *path == "" { // no flags given
 		fmt.Println("Usage: Ascii-generator -path path of the image")
 		os.Exit(1)
 	}
@@ -41,4 +41,7 @@ func main() {
 	ascii_array := utils.Brit_to_ascii(brightness_array)
 	Art := utils.Generate(ascii_array)
 	fmt.Print(Art)
+	if *save {
+		utils.Save(Art, *path)
+	}
 }
