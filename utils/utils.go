@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bytes"
 	"fmt"
 	"image"
 	"image/jpeg"
@@ -108,4 +109,22 @@ func Brit_to_ascii(brightness_array [][]int) [][]string {
 		ascii_array = append(ascii_array, curr_row)
 	}
 	return ascii_array
+}
+
+func Generate(array [][]string) string {
+	var res bytes.Buffer
+
+	height := len(array)
+	width := len(array[0])
+	for i := 0; i < height; i++ {
+		for j := 0; j < width; j++ {
+			k := 0
+			for k < 3 {
+				res.WriteString(array[i][j])
+				k++
+			}
+		}
+		res.WriteString("\n")
+	}
+	return res.String()
 }
