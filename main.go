@@ -12,7 +12,7 @@ import (
 func main() {
 	path := flag.String("path", "", "Path of the image (Jpg,Jpeg,Png)")
 	method := flag.String("method", "average", "Method for brightness conversion (Average,luminosity,lightness)")
-	save := flag.Bool("save", false, "Option to save the ascii in a text file")
+	save := flag.Bool("save", false, "Option to save the ascii in a text file in the same directory as given image")
 	flag.Parse()
 
 	if len(os.Args) < 2 || *path == "" { // no flags given
